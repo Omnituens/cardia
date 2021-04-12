@@ -84,7 +84,7 @@ namespace MGT.Cardia
         public int WindowWidth = 608;
         public Point? WindowLocation = null;
         public int ChartTime = 5;
-        public int Color = 0;
+        public Color DisplayColor = System.Drawing.Color.Lime;
         public int Volume = 5;
         public bool PlayBeat = true;
         public bool PlayAlarm = true;

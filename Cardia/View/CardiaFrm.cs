@@ -62,7 +62,6 @@ namespace MGT.Cardia
             InitializeAlarmPanel();
             InitializeLogPanel();
             InitializeNetworkPanel();
-            InitializeColors();
         }
 
         private void InitializeDevices()
@@ -76,12 +75,6 @@ namespace MGT.Cardia
                 miDevice.DropDownItems.Insert(miDevice.DropDownItems.Count - 2, item);
                 deviceMenuItems.Add(item);
             }
-        }
-
-        private void InitializeColors()
-        {
-            foreach (Color color in cardia.Colors)
-                cbColor.Items.Add(color);
         }
 
         #endregion
@@ -140,7 +133,6 @@ namespace MGT.Cardia
 
         void cardia_ColorChanged(object sender, Color color)
         {
-            cbColor.SelectedItem = color;
             ecgDisplay.Color = color;
 
             foreach (ECGDisplay clientDisplay in displays.Values)
@@ -264,11 +256,6 @@ namespace MGT.Cardia
         private void miSoundPlayAlarm_Click(object sender, EventArgs e)
         {
             cardia.PlayAlarm = !miSoundPlayAlarm.Checked;
-        }
-
-        private void cbColor_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            cardia.Color = (Color)cbColor.SelectedItem;
         }
 
         private void nudChartTime_ValueChanged(object sender, EventArgs e)
@@ -617,7 +604,7 @@ namespace MGT.Cardia
 
                     clientDisplay.BrushSize = ecgDisplay.BrushSize;
                     clientDisplay.ChartTime = Convert.ToInt32(nudChartTime.Value) * 1000;
-                    clientDisplay.Color = (Color)cbColor.SelectedItem;
+                    clientDisplay.Color = ecgDisplay.Color;
                     clientDisplay.Dock = System.Windows.Forms.DockStyle.Top;
                     clientDisplay.Interval = ecgDisplay.Interval;
                     clientDisplay.Margin = ecgDisplay.Margin;
@@ -675,5 +662,19 @@ namespace MGT.Cardia
         }
 
         #endregion Networking
+
+        private void btnChooseColor_Click(object sender, EventArgs e)
+        {
+            ColorDialog colorDlg = new ColorDialog();
+            colorDlg.AllowFullOpen = true;
+            colorDlg.AnyColor = true;
+            colorDlg.SolidColorOnly = false;
+            colorDlg.Color = Color.Red;
+
+            if (colorDlg.ShowDialog() == DialogResult.OK)
+            {
+                cardia.DisplayColor = colorDlg.Color;
+            }
+        }
     }
 }

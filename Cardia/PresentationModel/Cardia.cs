@@ -135,7 +135,7 @@ namespace MGT.Cardia
         #region User interface
 
         // Fields
-        private Color color;
+        private Color displayColor;
         private int chartTime;
         private int width;
         private Point? location;
@@ -161,13 +161,13 @@ namespace MGT.Cardia
         // Properties
         public List<Color> Colors { get; private set; }
 
-        public Color Color 
+        public Color DisplayColor
         {
-            get { return color; }
-            set 
+            get { return displayColor; }
+            set
             {
-                Color bck = color;
-                color = value;
+                Color bck = displayColor;
+                displayColor = value;
 
                 if (value != bck)
                     if (ColorChanged != null)
@@ -385,7 +385,7 @@ namespace MGT.Cardia
 
             RegisterHrmEventHandlers();
 
-            color = Colors[configuration.Color];
+            displayColor = configuration.DisplayColor;
 
             chartTime = configuration.ChartTime;
 
@@ -434,7 +434,7 @@ namespace MGT.Cardia
                 BundleChanged(this, bundle);
 
             if (ColorChanged != null)
-                ColorChanged(this, color);
+                ColorChanged(this, displayColor);
 
             if (ChartTimeChanged != null)
                 ChartTimeChanged(this, chartTime);
@@ -555,7 +555,7 @@ namespace MGT.Cardia
 
         public void SaveConfig()
         {
-            configuration.Color = Colors.IndexOf(color);
+            configuration.DisplayColor = displayColor;
 
             bundle.SaveConfig(configuration.Device);
 
